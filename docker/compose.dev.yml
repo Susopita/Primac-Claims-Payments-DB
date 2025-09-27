@@ -1,0 +1,40 @@
+services:
+  cassandra:
+    image: cassandra:4.1
+    container_name: cassandra
+    ports:
+      - "9042:9042"
+    environment:
+      - CASSANDRA_CLUSTER_NAME=primac-cluster
+      - CASSANDRA_NUM_TOKENS=128
+      - CASSANDRA_START_RPC=true
+    healthcheck:
+      test: ["CMD", "cqlsh", "-e", "DESCRIBE KEYSPACES"]
+      interval: 15s
+      timeout: 10s
+      retries: 15
+    profiles: ["default", "db"]
+
+  cassandra-setup:
+    image: cassandra:4.1
+    restart: "no"
+    depends_on:
+      cassandra:
+        condition: service_healthy
+    volumes:
+      - ./scripts:/scripts
+    entrypoint: [ "sh", "-c", "cqlsh cassandra -f /scripts/keyspace.local.cql && cqlsh cassandra -f /scripts/tables.cql" ]
+    profiles: ["default", "schema"]
+
+
+  faker-seed:
+    restart: "no"
+    build:
+      context: ./faker
+      dockerfile: Dockerfile
+    depends_on:
+      cassandra-setup:
+        condition: service_completed_successfully
+    environment:
+      - PYTHONUNBUFFERED=1
+    profiles: ["default", "seed"]

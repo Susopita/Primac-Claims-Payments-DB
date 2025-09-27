@@ -1,5 +1,4 @@
-CREATE KEYSPACE IF NOT EXISTS primac_db
-WITH REPLICATION = { 'class' : 'SimpleStrategy', 'replication_factor' : 1 };
+USE primac_db;
 
 CREATE TABLE reclamos (
     reclamo_id UUID,
