@@ -38,3 +38,19 @@ services:
     environment:
       - PYTHONUNBUFFERED=1
     profiles: ["default", "seed"]
+
+  cassandra-ingest:
+    build:
+      context: ./cassandra_ingest
+      dockerfile: Dockerfile
+    depends_on:
+      cassandra-setup:
+        condition: service_completed_successfully
+    environment:
+      - DB_HOST=cassandra
+      - DB_NAME=primac_db
+      - S3_BUCKET=primax-ingest-dev
+      - AWS_ACCESS_KEY_ID=${AWS_ACCESS_KEY_ID}
+      - AWS_SECRET_ACCESS_KEY=${AWS_SECRET_ACCESS_KEY}
+      - AWS_DEFAULT_REGION=us-east-1
+    profiles: ["default", "ingest"]
