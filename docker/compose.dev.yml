@@ -41,7 +41,7 @@ services:
 
   cassandra-ingest:
     build:
-      context: ./cassandra_ingest
+      context: ../../cassandra_ingest
       dockerfile: Dockerfile
     depends_on:
       cassandra-setup:
