@@ -1,6 +1,6 @@
 USE primac_db;
 
-CREATE TABLE reclamos (
+CREATE TABLE IF NOT EXISTS reclamos (
     reclamo_id UUID,
     cliente_id INT,
     poliza_id INT,
@@ -11,7 +11,7 @@ CREATE TABLE reclamos (
     PRIMARY KEY ((cliente_id), fecha, reclamo_id)
 ) WITH CLUSTERING ORDER BY (fecha DESC);
 
-CREATE TABLE pagos (
+CREATE TABLE IF NOT EXISTS pagos (
     pago_id UUID,
     cliente_id INT,
     poliza_id INT,
@@ -22,7 +22,7 @@ CREATE TABLE pagos (
     PRIMARY KEY ((cliente_id), fecha, pago_id)
 ) WITH CLUSTERING ORDER BY (fecha DESC);
 
-CREATE TABLE transaction_audit (
+CREATE TABLE IF NOT EXISTS transaction_audit (
     audit_id UUID,
     servicio TEXT,
     operacion TEXT,

@@ -31,7 +31,7 @@ insert_audit = session.prepare("""
 # =========================
 # CONFIGURACIÓN
 # =========================
-TOTAL_RECLAMOS = 20000
+TOTAL_RECLAMOS = 12000
 TOTAL_PAGOS = 20000
 TOTAL_AUDITS = 20000
 BATCH_SIZE = 100
@@ -47,8 +47,8 @@ def seed_reclamos():
             for _ in range(BATCH_SIZE):
                 batch.add(insert_reclamo, [
                     uuid.uuid4(),
-                    uuid.uuid4(),  # cliente_id
-                    uuid.uuid4(),  # poliza_id
+                    random.randint(1, 15000),  # cliente_id
+                    random.randint(1, 20000),  # poliza_id
                     fake.date_time_this_decade(),
                     random.choice(estados),
                     decimal.Decimal(random.randint(100, 5000)),
@@ -69,8 +69,8 @@ def seed_pagos():
             for _ in range(BATCH_SIZE):
                 batch.add(insert_pago, [
                     uuid.uuid4(),
-                    uuid.uuid4(),  # cliente_id
-                    uuid.uuid4(),  # poliza_id
+                    random.randint(1, 15000),  # cliente_id
+                    random.randint(1, 20000),  # poliza_id
                     fake.date_time_this_decade(),
                     decimal.Decimal(random.randint(50, 2000)),
                     random.choice(metodos),
@@ -95,8 +95,8 @@ def seed_audits():
                     random.choice(servicios),
                     random.choice(operaciones),
                     random.choice(entidades),
-                    uuid.uuid4(),   # referencia_id
-                    uuid.uuid4(),   # usuario_id
+                    random.randint(1, 20000),   # referencia_id
+                    random.randint(1, 20000),   # usuario_id
                     fake.date_time_this_decade(),
                     fake.sentence(nb_words=12)
                 ])
