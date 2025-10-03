@@ -2,8 +2,8 @@ USE primac_db;
 
 CREATE TABLE reclamos (
     reclamo_id UUID,
-    cliente_id UUID,
-    poliza_id UUID,
+    cliente_id INT,
+    poliza_id INT,
     fecha TIMESTAMP,
     estado TEXT,
     monto DECIMAL,
@@ -13,8 +13,8 @@ CREATE TABLE reclamos (
 
 CREATE TABLE pagos (
     pago_id UUID,
-    cliente_id UUID,
-    poliza_id UUID,
+    cliente_id INT,
+    poliza_id INT,
     fecha TIMESTAMP,
     monto DECIMAL,
     metodo TEXT,
@@ -27,8 +27,8 @@ CREATE TABLE transaction_audit (
     servicio TEXT,
     operacion TEXT,
     entidad TEXT,
-    referencia_id UUID,
-    usuario_id UUID,
+    referencia_id TEXT,
+    usuario_id INT,
     fecha TIMESTAMP,
     detalle TEXT,
     PRIMARY KEY ((servicio), fecha, audit_id)
