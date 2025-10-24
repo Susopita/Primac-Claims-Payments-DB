@@ -14,6 +14,10 @@ services:
       timeout: 10s
       retries: 15
     profiles: ["default", "db"]
+    networks:
+      - primac
+    volumes:
+      - cassandra_data:/var/lib/cassandra
 
   cassandra-setup:
     image: cassandra:4.1
@@ -23,6 +27,8 @@ services:
         condition: service_healthy
     volumes:
       - ./scripts:/scripts
+    networks:
+      - primac
     entrypoint: [ "sh", "-c", "cqlsh cassandra -f /scripts/keyspace.local.cql && cqlsh cassandra -f /scripts/tables.cql" ]
     profiles: ["default", "schema"]
 
@@ -38,3 +44,12 @@ services:
     environment:
       - PYTHONUNBUFFERED=1
     profiles: ["default", "seed"]
+    networks:
+      - primac
+
+networks:
+  primac:
+    external: true
+
+volumes:
+  cassandra_data:

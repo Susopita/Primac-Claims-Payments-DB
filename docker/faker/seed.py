@@ -95,7 +95,7 @@ def seed_audits():
                     random.choice(servicios),
                     random.choice(operaciones),
                     random.choice(entidades),
-                    random.randint(1, 20000),   # referencia_id
+                    str(random.randint(1, 20000)),   # referencia_id
                     random.randint(1, 20000),   # usuario_id
                     fake.date_time_this_decade(),
                     fake.sentence(nb_words=12)

@@ -17,11 +17,12 @@ export class ProductionStack extends cdk.Stack {
 
     const vpc = new ec2.Vpc(this, 'PrimacVPC', {
       vpcName: 'primac-vpc',
-      maxAzs: 4,
+      ipAddresses: ec2.IpAddresses.cidr('10.0.0.0/16'),
+      availabilityZones: ['us-east-1a', 'us-east-1b', 'us-east-1c', 'us-east-1d'],
       subnetConfiguration: [
         {
           name: 'public',
-          subnetType: ec2.SubnetType.PUBLIC,
+          subnetType: ec2.SubnetType.PRIVATE_WITH_EGRESS,
           cidrMask: 24,
         },
         {
